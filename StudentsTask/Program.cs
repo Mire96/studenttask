@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace StudentsTask
 {
@@ -20,18 +21,22 @@ namespace StudentsTask
                 {
                     case "asc":
                         Console.WriteLine("Sorting students in ascending order");
-                        Controller.GetInstance().AscStudentList();
+                        Thread t1 = new Thread(Controller.GetInstance().AscStudentList);
+                        t1.Start();
                         break;
                     case "desc":
                         Console.WriteLine("Sorting students in descending order");
-                        Controller.GetInstance().DescStudentList();
+                        Thread t2 = new Thread(Controller.GetInstance().DescStudentList);
+                        t2.Start();
                         break;
                     case "delete":
                         Console.WriteLine("Deleting student with lowest average grade");
-                        Controller.GetInstance().DeleteStudentWithLowestAvgGrade();
+                        Thread t3 = new Thread(Controller.GetInstance().DeleteStudentWithLowestAvgGrade);
+                        t3.Start();
                         break;
                     default:
-                        Controller.GetInstance().CreateStudent(inputString);
+                        Thread t4 = new Thread(() => Controller.GetInstance().CreateStudent(inputString));
+                        t4.Start();
                         Console.WriteLine("Student inserted into database successfully");
                         break;
                 }
